@@ -428,7 +428,7 @@ const products = [
       name: "Golden Aiguillette",
       description:  "Make a statement with our stylish and versatile Badges. Whether you want to showcase your affiliation, promote your brand, or simply add a touch of personal flair, this badge is the perfect accessory.",
       price: 39.99,
-      image: "/aiguillette.jpg",
+      image: "/aiguillette.JPG",
       collection: "aiguillette",
     },   
     {
@@ -436,7 +436,7 @@ const products = [
       name: "Silver Maple Leaf Braid",
       description:  "Make a statement with our stylish and versatile Badges. Whether you want to showcase your affiliation, promote your brand, or simply add a touch of personal flair, this badge is the perfect accessory.",
       price: 39.99,
-      image: "/Canadianbraid.jpg",
+      image: "/Canadianbraid.JPG",
       collection: "braiding",
     },
 
