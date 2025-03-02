@@ -5,33 +5,6 @@ import emailjs from '@emailjs/browser';
 
 const Contact = () => {
 
-  
-function isValidEmail(emailText) {
-  // checks if an emali is valid by checking if it has a dot and if it has an @
-  // return true for a valie email and false for an invalid email
-  let atCount = 0;
-  let dotCount = 0;
-  for (let i = 0; i < emailText.length; i++) {
-    let char = emailText[i];
-    if (char === '@'){
-      atCount++;
-      for (let j = i+1; j < emailText.length; j++){
-          char = emailText[j];
-          if (char === '.'){
-              dotCount++
-          }
-          if (char === '@'){
-              return false;
-          }
-      }
-      break
-    }
-  }
-
-  return !(atCount !== 1 || dotCount === 0)
-};
-
-
   const [formState, setFormState] = useState({});
   const form = useRef();
 
@@ -42,19 +15,19 @@ function isValidEmail(emailText) {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    console.log(formState.from_email)
-    if(!isValidEmail(formState.from_email)) {
-      alert("Please enter a valid email address");
-      return;
-    }
+
+    Email.send({
+      Host : "smtp.gmail.com",
+      Username : process.env.EMAIL_USERNAME,
+      Password : process.env.EMAIL_PASSWORD,
+      To : 'info@alamraimporters.com',
+      From : "mail_collector@alamraimporters.com",
+      Subject : "This is the subject",
+      Body : "And this is the body"
+  }).then(
+    message => alert(message)
+  );
   
-    emailjs.sendForm('service_cxkz62p', 'template_dt9x0ki', form.current, 'vQxtVpTCvIziyvN_v')
-      .then((result) => {
-          alert("Email Sent Succesfully");
-          console.log(result.text);
-      }, (error) => {
-          console.log(error.text);
-      });
   };
   
 
@@ -112,23 +85,6 @@ function isValidEmail(emailText) {
                     className="text-black mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:outline-none"
                   ></textarea>
                 </div>
-                   {/* This is a comment 
-                <div className="mb-4">
-                  <label
-                    htmlFor="image"
-                    className="block text-sm font-medium"
-                  >
-                    Upload Image:
-                  </label>
-                  <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:outline-none"
-                  />
-                </div>*/}
                 <button
                   type="submit"
                   onClick={sendEmail}
