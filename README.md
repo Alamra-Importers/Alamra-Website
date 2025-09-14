@@ -1,40 +1,152 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Alamra Embroidery - Premium Custom Embroidery Website
 
-## Getting Started
+A modern, responsive website showcasing premium custom embroidery, badges, and precision craftsmanship. Built with Next.js 14, TypeScript, and Material Tailwind for a professional and elegant user experience.
 
-First, run the development server:
+## ✨ Features
 
+- **Modern Design**: Clean, professional interface with Material Tailwind components
+- **Responsive Layout**: Optimized for all devices and screen sizes
+- **Product Showcase**: Elegant gallery of featured embroidery work
+- **Contact System**: Integrated contact form with email functionality
+- **SEO Optimized**: Proper meta tags and structured data
+- **Performance**: Optimized images and fast loading times
+- **Accessibility**: WCAG compliant design and navigation
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS + Material Tailwind
+- **Icons**: Heroicons
+- **Email**: Nodemailer
+- **Fonts**: Google Fonts (Inter, Playfair Display)
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd alamra-embroidery
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up environment variables:
+Create a `.env.local` file in the root directory:
+```env
+GMAIL_USER=your-email@gmail.com
+GMAIL_APP_PASSWORD=your-app-password
+```
+
+4. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+src/
+├── app/                    # App Router pages
+│   ├── about/             # About page
+│   ├── contact/           # Contact page
+│   ├── products/          # Products pages
+│   ├── api/               # API routes
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout
+│   ├── page.tsx           # Home page
+│   ├── loading.tsx        # Loading component
+│   └── not-found.tsx      # 404 page
+├── components/            # Reusable components
+│   ├── layout/           # Layout components
+│   ├── sections/         # Page sections
+│   └── theme-provider.tsx # Material Tailwind provider
+└── styles/               # Additional styles
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 🎨 Design System
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Colors
+- **Primary**: Amber (Gold) - `#f59e0b`
+- **Secondary**: Blue Gray - `#475569`
+- **Background**: Gray shades for sections
+- **Text**: Blue Gray variants
 
-## Learn More
+### Typography
+- **Headings**: Playfair Display (serif)
+- **Body**: Inter (sans-serif)
 
-To learn more about Next.js, take a look at the following resources:
+### Components
+- Material Tailwind components for consistency
+- Custom animations and transitions
+- Responsive grid layouts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📧 Contact Form
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The contact form uses Nodemailer to send emails through Gmail SMTP. Make sure to:
 
-## Deploy on Vercel
+1. Enable 2-factor authentication on your Gmail account
+2. Generate an App Password for the application
+3. Use the App Password in your environment variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔧 Customization
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Adding New Products
+Edit the products array in:
+- `src/components/sections/featured-work.tsx` (homepage)
+- `src/components/sections/products-grid.tsx` (products page)
+- `src/app/products/[productId]/page.tsx` (individual products)
+
+### Styling
+- Modify `tailwind.config.js` for theme customization
+- Update `src/app/globals.css` for global styles
+- Use Material Tailwind's theming system for component styles
+
+## 📱 Responsive Design
+
+The website is fully responsive with breakpoints:
+- **Mobile**: < 768px
+- **Tablet**: 768px - 1024px  
+- **Desktop**: > 1024px
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy automatically
+
+### Other Platforms
+The app can be deployed to any platform supporting Next.js:
+- Netlify
+- Railway
+- DigitalOcean App Platform
+
+## 📄 License
+
+This project is private and proprietary to Alamra Embroidery.
+
+## 🤝 Contributing
+
+This is a private project. For any changes or improvements, please contact the development team.
+
+---
+
+Built with ❤️ for Alamra Embroidery
