@@ -38,50 +38,50 @@ export const productCategories: ProductCategory[] = [
     slug: 'bullion-crests',
     description: 'Premium hand-embroidered bullion crests with intricate metallic threadwork',
     longDescription: 'Our bullion crests represent the pinnacle of embroidery craftsmanship. Each piece is meticulously hand-embroidered using premium metallic threads, creating stunning three-dimensional effects that catch and reflect light beautifully. These crests are perfect for military insignia, institutional badges, and ceremonial wear.',
-    featuredImage: '/bullion_crests/10.jpg',
+    featuredImage: '/bullion_crests/10_compressed.webp',
     images: [
-      '/bullion_crests/10.jpg',
-      '/bullion_crests/11.jpg',
-      '/bullion_crests/12.jpg',
-      '/bullion_crests/13.jpg',
-      '/bullion_crests/14.jpg',
-      '/bullion_crests/15.jpg',
-      '/bullion_crests/16.jpg',
-      '/bullion_crests/18.jpg',
-      '/bullion_crests/19.jpg',
-      '/bullion_crests/2.jpg',
-      '/bullion_crests/21.jpg',
-      '/bullion_crests/24.jpg',
-      '/bullion_crests/25.jpg',
-      '/bullion_crests/27.jpg',
-      '/bullion_crests/28.jpg',
-      '/bullion_crests/29.jpg',
-      '/bullion_crests/31.jpg',
-      '/bullion_crests/32.jpg',
-      '/bullion_crests/33.jpg',
-      '/bullion_crests/34.jpg',
-      '/bullion_crests/35.jpg',
-      '/bullion_crests/36.jpg',
-      '/bullion_crests/37.jpg',
-      '/bullion_crests/38.jpg',
-      '/bullion_crests/39.jpg',
-      '/bullion_crests/40.jpg',
-      '/bullion_crests/41.jpg',
-      '/bullion_crests/42.jpg',
-      '/bullion_crests/43.jpg',
-      '/bullion_crests/45.jpg',
-      '/bullion_crests/46.jpg',
-      '/bullion_crests/5.jpg',
-      '/bullion_crests/52.jpg',
-      '/bullion_crests/6.jpg',
-      '/bullion_crests/7.jpg',
-      '/bullion_crests/8.jpg',
-      '/bullion_crests/9.jpg'
+      '/bullion_crests/10_compressed.webp',
+      '/bullion_crests/11_compressed.webp',
+      '/bullion_crests/12_compressed.webp',
+      '/bullion_crests/13_compressed.webp',
+      '/bullion_crests/14_compressed.webp',
+      '/bullion_crests/15_compressed.webp',
+      '/bullion_crests/16_compressed.webp',
+      '/bullion_crests/18_compressed.webp',
+      '/bullion_crests/19_compressed.webp',
+      '/bullion_crests/2_compressed.webp',
+      '/bullion_crests/21_compressed.webp',
+      '/bullion_crests/24_compressed.webp',
+      '/bullion_crests/25_compressed.webp',
+      '/bullion_crests/27_compressed.webp',
+      '/bullion_crests/28_compressed.webp',
+      '/bullion_crests/29_compressed.webp',
+      '/bullion_crests/31_compressed.webp',
+      '/bullion_crests/32_compressed.webp',
+      '/bullion_crests/33_compressed.webp',
+      '/bullion_crests/34_compressed.webp',
+      '/bullion_crests/35_compressed.webp',
+      '/bullion_crests/36_compressed.webp',
+      '/bullion_crests/37_compressed.webp',
+      '/bullion_crests/38_compressed.webp',
+      '/bullion_crests/39_compressed.webp',
+      '/bullion_crests/40_compressed.webp',
+      '/bullion_crests/41_compressed.webp',
+      '/bullion_crests/42_compressed.webp',
+      '/bullion_crests/43_compressed.webp',
+      '/bullion_crests/45_compressed.webp',
+      '/bullion_crests/46_compressed.webp',
+      '/bullion_crests/5_compressed.webp',
+      '/bullion_crests/52_compressed.webp',
+      '/bullion_crests/6_compressed.webp',
+      '/bullion_crests/7_compressed.webp',
+      '/bullion_crests/8_compressed.webp',
+      '/bullion_crests/9_compressed.webp'
     ],
     banner: {
       title: 'Bullion Crests',
       subtitle: 'Premium hand-embroidered metallic threadwork',
-      backgroundImage: '/bullion_crests/10.jpg'
+      backgroundImage: '/bullion_crests/10_compressed.webp'
     }
   },
   {
@@ -90,26 +90,26 @@ export const productCategories: ProductCategory[] = [
     slug: 'patches',
     description: 'Custom embroidered patches for uniforms, organizations, and personal use',
     longDescription: 'Our embroidered patches combine traditional craftsmanship with modern design techniques. Perfect for uniforms, jackets, bags, and promotional items, these patches are built to last with reinforced edges and colorfast threads. Available in various sizes and backing options.',
-    featuredImage: '/patches/1.jpg',
+    featuredImage: '/patches/1_compressed.webp',
     images: [
-      '/patches/1.jpg',
-      '/patches/17.jpg',
-      '/patches/20.jpg',
-      '/patches/22.jpg',
-      '/patches/23.jpg',
-      '/patches/26.jpg',
-      '/patches/3.jpg',
-      '/patches/30.jpg',
-      '/patches/4.jpg',
-      '/patches/44.jpg',
-      '/patches/47.jpg',
-      '/patches/48.jpg',
-      '/patches/49.jpg'
+      '/patches/1_compressed.webp',
+      '/patches/17_compressed.webp',
+      '/patches/20_compressed.webp',
+      '/patches/22_compressed.webp',
+      '/patches/23_compressed.webp',
+      '/patches/26_compressed.webp',
+      '/patches/3_compressed.webp',
+      '/patches/30_compressed.webp',
+      '/patches/4_compressed.webp',
+      '/patches/44_compressed.webp',
+      '/patches/47_compressed.webp',
+      '/patches/48_compressed.webp',
+      '/patches/49_compressed.webp'
     ],
     banner: {
       title: 'Embroidered Patches',
       subtitle: 'Custom patches for every application',
-      backgroundImage: '/patches/1.jpg'
+      backgroundImage: '/patches/1_compressed.webp'
     }
   },
   {
@@ -118,14 +118,14 @@ export const productCategories: ProductCategory[] = [
     slug: 'aiguillette',
     description: 'Traditional military and ceremonial aiguillettes with ornate braided cords',
     longDescription: 'Aiguillettes are ornamental braided cords worn on military and ceremonial uniforms. Our aiguillettes are crafted using traditional techniques with premium materials, featuring intricate braiding patterns and metallic accents that denote rank and ceremonial importance.',
-    featuredImage: '/aiguillette/aiguillette.JPG',
+    featuredImage: '/aiguillette/aiguillette_compressed.webp',
     images: [
-      '/aiguillette/aiguillette.JPG'
+      '/aiguillette/aiguillette_compressed.webp'
     ],
     banner: {
       title: 'Aiguillettes',
       subtitle: 'Traditional ceremonial braided cords',
-      backgroundImage: '/aiguillette/aiguillette.JPG'
+      backgroundImage: '/aiguillette/aiguillette_compressed.webp'
     }
   },
   {
@@ -134,14 +134,14 @@ export const productCategories: ProductCategory[] = [
     slug: 'braids',
     description: 'Precision-crafted military braids and decorative trim',
     longDescription: 'Our military braids are woven with precision and attention to detail, following traditional patterns and specifications. These decorative elements add distinction to uniforms and ceremonial wear, available in various colors and patterns to match specific requirements.',
-    featuredImage: '/braids/Canadianbraid.JPG',
+    featuredImage: '/braids/Canadianbraid_compressed.webp',
     images: [
-      '/braids/Canadianbraid.JPG'
+      '/braids/Canadianbraid_compressed.webp'
     ],
     banner: {
       title: 'Military Braids',
       subtitle: 'Precision-crafted decorative trim',
-      backgroundImage: '/braids/Canadianbraid.JPG'
+      backgroundImage: '/braids/Canadianbraid_compressed.webp'
     }
   },
   {
@@ -150,15 +150,15 @@ export const productCategories: ProductCategory[] = [
     slug: 'flags',
     description: 'Custom embroidered flags and banners for ceremonies and display',
     longDescription: 'Our embroidered flags represent the highest quality in ceremonial and display pieces. Each flag is carefully embroidered with precise attention to detail, using colorfast threads and reinforced construction for both indoor and outdoor use.',
-    featuredImage: '/flags/50.jpg',
+    featuredImage: '/flags/50_compressed.webp',
     images: [
-      '/flags/50.jpg',
-      '/flags/51.jpg'
+      '/flags/50_compressed.webp',
+      '/flags/51_compressed.webp'
     ],
     banner: {
       title: 'Embroidered Flags',
       subtitle: 'Ceremonial and display flags',
-      backgroundImage: '/flags/50.jpg'
+      backgroundImage: '/flags/50_compressed.webp'
     }
   },
   {
@@ -167,14 +167,14 @@ export const productCategories: ProductCategory[] = [
     slug: 'banners',
     description: 'Professional embroidered banners for events and organizations',
     longDescription: 'Our custom banners combine embroidery with professional finishing to create impressive displays for events, organizations, and ceremonies. Built with durable materials and reinforced construction for long-lasting use.',
-    featuredImage: '/banners/1.JPG',
+    featuredImage: '/banners/1_compressed.webp',
     images: [
-      '/banners/1.JPG'
+      '/banners/1_compressed.webp'
     ],
     banner: {
       title: 'Custom Banners',
       subtitle: 'Professional embroidered displays',
-      backgroundImage: '/banners/1.JPG'
+      backgroundImage: '/banners/1_compressed.webp'
     }
   }
 ]

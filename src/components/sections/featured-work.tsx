@@ -18,6 +18,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getFeaturedCategories } from '@/data/product-categories'
 
+
 // Get featured categories for homepage display
 const featuredCategories = getFeaturedCategories(3)
 
@@ -138,6 +139,9 @@ export function FeaturedWork() {
                     fill
                     className={`object-cover transition-transform duration-700 ${hoveredProduct === category.id ? 'scale-110' : 'scale-100'
                       }`}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    priority={true}
+                    quality={80}
                   />
 
                   {/* Overlay */}
@@ -225,7 +229,7 @@ export function FeaturedWork() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
             onClick={closeGallery}
             onKeyDown={handleKeyDown}
             tabIndex={0}
@@ -233,67 +237,95 @@ export function FeaturedWork() {
             {/* Close Button */}
             <button
               onClick={closeGallery}
-              className="absolute top-4 right-4 z-60 bg-white/10 hover:bg-white/20 text-white rounded-full p-3 transition-colors"
-              aria-label="Close gallery"
+              className="absolute top-4 right-4 z-10 p-2 text-white hover:text-gray-300 transition-colors"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-
-            {/* Category Title */}
-            <div className="absolute top-4 left-4 text-white">
-              <h2 className="text-2xl font-bold">{currentCategory.name}</h2>
-              <p className="text-white/80">{currentCategory.description}</p>
-            </div>
 
             {/* Navigation Buttons */}
             {currentCategory.images.length > 1 && (
               <>
                 <button
-                  onClick={(e) => { e.stopPropagation(); previousImage(); }}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white rounded-full p-3 transition-colors"
-                  aria-label="Previous image"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    previousImage()
+                  }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white hover:text-gray-300 transition-colors"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
-                
                 <button
-                  onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white rounded-full p-3 transition-colors"
-                  aria-label="Next image"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    nextImage()
+                  }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white hover:text-gray-300 transition-colors"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
               </>
             )}
 
-            {/* Image */}
+            {/* Image Counter */}
+            <div className="absolute top-4 left-4 z-10 text-white text-sm">
+              {selectedIndex + 1} of {currentCategory.images.length}
+            </div>
+
+            {/* Category Name */}
+            <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 text-white text-center">
+              <h3 className="text-lg font-semibold">{currentCategory.name}</h3>
+            </div>
+
+            {/* Main Image */}
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="relative max-w-5xl max-h-[80vh] w-full h-full"
+              key={selectedIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="relative w-full h-full flex items-center justify-center p-8"
               onClick={(e) => e.stopPropagation()}
             >
-              <Image
+              <img
                 src={selectedImage}
-                alt={`${currentCategory.name} ${selectedIndex + 1}`}
-                fill
-                className="object-contain"
-                sizes="90vw"
-                priority
+                alt={`${currentCategory.name} - Image ${selectedIndex + 1}`}
+                className="max-w-[90vw] max-h-[80vh] object-contain"
+                style={{ maxWidth: '90vw', maxHeight: '80vh' }}
               />
             </motion.div>
 
-            {/* Image Counter */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm">
-              {selectedIndex + 1} of {currentCategory.images.length}
-            </div>
+            {/* Thumbnail Strip */}
+            {currentCategory.images.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2 max-w-[90vw] overflow-x-auto pb-2">
+                {currentCategory.images.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedIndex(index)
+                      setSelectedImage(currentCategory.images[index])
+                    }}
+                    className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                      index === selectedIndex 
+                        ? 'border-white' 
+                        : 'border-transparent hover:border-gray-400'
+                    }`}
+                  >
+                    <img
+                      src={image}
+                      alt={`Thumbnail ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

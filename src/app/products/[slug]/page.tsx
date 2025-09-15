@@ -1,42 +1,42 @@
-import { notFound } from 'next/navigation'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useParams, notFound } from 'next/navigation'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { CollectionGallery } from '@/components/sections/collection-gallery'
-import { getCategoryBySlug, getAllCategorySlugs } from '@/data/product-categories'
+import { getCategoryBySlug, ProductCategory } from '@/data/product-categories'
 
-interface CollectionPageProps {
-  params: {
-    slug: string
-  }
-}
+export default function CollectionPage() {
+  const params = useParams()
+  const [category, setCategory] = useState<ProductCategory | null>(null)
+  const [loading, setLoading] = useState(true)
 
-export async function generateStaticParams() {
-  const slugs = getAllCategorySlugs()
-  return slugs.map((slug) => ({
-    slug: slug,
-  }))
-}
-
-export async function generateMetadata({ params }: CollectionPageProps) {
-  const category = getCategoryBySlug(params.slug)
-  
-  if (!category) {
-    return {
-      title: 'Collection Not Found - Alamra Embroidery',
+  useEffect(() => {
+    if (params?.slug && typeof params.slug === 'string') {
+      const foundCategory = getCategoryBySlug(params.slug)
+      setCategory(foundCategory || null)
+      setLoading(false)
     }
-  }
+  }, [params])
 
-  return {
-    title: `${category.name} - Alamra Embroidery`,
-    description: category.longDescription,
+  if (loading) {
+    return (
+      <main className="min-h-screen">
+        <Header />
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading collection...</p>
+          </div>
+        </div>
+        <Footer />
+      </main>
+    )
   }
-}
-
-export default function CollectionPage({ params }: CollectionPageProps) {
-  const category = getCategoryBySlug(params.slug)
 
   if (!category) {
-    notFound()
+    return notFound()
   }
 
   return (

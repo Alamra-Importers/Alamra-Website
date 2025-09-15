@@ -44,10 +44,10 @@ export function Header() {
       // Change header appearance after scrolling 50px down
       setIsScrolled(window.scrollY > 50)
     }
-    
+
     // Add scroll listener when component mounts
     window.addEventListener('scroll', handleScroll)
-    
+
     // Cleanup: Remove listener when component unmounts
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -62,33 +62,34 @@ export function Header() {
   ]
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full">
+    <header className="header-fixed w-full">
       {/* 
         Header Background Container
         - Changes from transparent to white/blur on scroll
         - Uses hardware acceleration for smooth performance
-        - Fixed positioning ensures header stays at top
+        - Fixed positioning and height ensures header stays at top without movement
       */}
       <div
-        className={`w-full ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}
+        className={`w-full h-full ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}
         style={{
           // Smooth transitions for background changes only (prevents movement)
           transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease',
           transform: 'translateZ(0)', // Force hardware acceleration to prevent layout shifts
-          willChange: 'background-color, backdrop-filter, box-shadow' // Optimize for these property changes
+          willChange: 'background-color, backdrop-filter, box-shadow', // Optimize for these property changes
+          position: 'relative' // Ensure proper stacking context
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center justify-between py-4 md:h-16 md:py-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <nav className="flex items-center justify-between h-full">
             {/* 
               Logo Section
-              - Switches between alamra.png (transparent header) and logo-black.png (scrolled header)
+              - Switches between alamra_compressed.webp (transparent header) and logo-black_compressed.webp (scrolled header)
               - flex-shrink-0 prevents logo from shrinking in flex layout
               - priority loading for better performance
             */}
             <Link href="/" className="flex items-center flex-shrink-0">
               <Image
-                src={isScrolled ? "/logo-black.png" : "/alamra.png"} // Dynamic logo switching
+                src={isScrolled ? "/logo-black_compressed.webp" : "/alamra_compressed.webp"} // Dynamic logo switching
                 alt="Alamra"
                 width={48}
                 height={48}
@@ -115,7 +116,7 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
-              
+
               {/* Call-to-Action Button */}
               <Link
                 href="/contact"
@@ -149,43 +150,50 @@ export function Header() {
             - Closes automatically when link is clicked
             - Includes all navigation links + CTA button
           */}
-          <AnimatePresence>
-            {isMobileMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}    // Start hidden and collapsed
-                animate={{ opacity: 1, height: 'auto' }} // Animate to visible and full height
-                exit={{ opacity: 0, height: 0 }}         // Animate back to hidden when closing
-                className="md:hidden bg-white border-t border-gray-200"
-              >
-                <div className="py-4 space-y-4">
-                  {/* Mobile Navigation Links */}
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)} // Close menu when link clicked
-                      className="block text-gray-700 hover:text-primary-500 font-medium"
-                      style={{ transition: 'color 0.2s ease' }}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                  
-                  {/* Mobile CTA Button */}
-                  <Link
-                    href="/contact"
-                    onClick={() => setIsMobileMenuOpen(false)} // Close menu when button clicked
-                    className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg font-medium inline-block"
-                    style={{ transition: 'background-color 0.2s ease' }}
-                  >
-                    Get Quote
-                  </Link>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </div>
+
+      {/* Mobile Menu - Positioned absolutely to not affect header height */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}    // Start hidden and slightly up
+            animate={{ opacity: 1, y: 0 }}      // Animate to visible and proper position
+            exit={{ opacity: 0, y: -10 }}       // Animate back to hidden when closing
+            className="absolute top-full left-0 right-0 md:hidden bg-white border-t border-gray-200 shadow-lg"
+            style={{
+              transform: 'translateZ(0)', // Hardware acceleration
+              zIndex: 40,
+              backfaceVisibility: 'hidden' // Prevent flickering
+            }}
+          >
+            <div className="py-4 space-y-4">
+              {/* Mobile Navigation Links */}
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)} // Close menu when link clicked
+                  className="block text-gray-700 hover:text-primary-500 font-medium"
+                  style={{ transition: 'color 0.2s ease' }}
+                >
+                  {item.name}
+                </Link>
+              ))}
+
+              {/* Mobile CTA Button */}
+              <Link
+                href="/contact"
+                onClick={() => setIsMobileMenuOpen(false)} // Close menu when button clicked
+                className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg font-medium inline-block"
+                style={{ transition: 'background-color 0.2s ease' }}
+              >
+                Get Quote
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }
@@ -213,8 +221,8 @@ export function Header() {
  *    - Semantic HTML structure
  * 
  * 5. Required Assets:
- *    - /alamra.png - Main logo (transparent background)
- *    - /logo-black.png - Dark logo (scrolled state)
+ *    - /alamra_compressed.webp - Main logo (transparent background)
+ *    - /logo-black_compressed.webp - Dark logo (scrolled state)
  * 
  * 6. Dependencies:
  *    - Framer Motion (animations)

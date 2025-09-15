@@ -1,0 +1,29 @@
+{
+  "name": "Alamra Embroidery - Premium Custom Embroidery & Badges",
+  "short_name": "Alamra Embroidery",
+  "description": "Discover exquisite custom embroidery, badges, and precision craftsmanship. Premium quality embroidered products for institutions, organizations, and individuals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#d4af37",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo-gold-small_compressed.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-gold-small_compressed.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "shopping", "lifestyle"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}

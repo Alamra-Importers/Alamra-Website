@@ -36,7 +36,7 @@ const Footer = () => {
           >
             <Link href="/" className="flex items-center space-x-3 mb-6">
               <Image
-                src="/alamra.png"
+                src="/alamra_compressed.webp"
                 alt="Alamra"
                 width={40}
                 height={40}

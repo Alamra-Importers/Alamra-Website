@@ -12,7 +12,7 @@ export function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <Image 
-                src="/alamra.png" 
+                src="/alamra_compressed.webp" 
                 alt="Alamra Embroidery" 
                 width={50} 
                 height={50}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react'
@@ -9,6 +9,8 @@ import { ProductCategory } from '@/data/product-categories'
 interface CollectionGalleryProps {
   category: ProductCategory
 }
+
+
 
 interface ImageModalProps {
   images: string[]
@@ -31,6 +33,23 @@ const ImageModal = ({
   onSelectImage,
   categoryName 
 }: ImageModalProps) => {
+  // Preload adjacent images for instant navigation
+  useEffect(() => {
+    if (isOpen) {
+      const preloadIndexes = [
+        currentIndex - 1,
+        currentIndex + 1,
+        currentIndex - 2,
+        currentIndex + 2
+      ].filter(i => i >= 0 && i < images.length)
+      
+      preloadIndexes.forEach(index => {
+        const img = new window.Image()
+        img.src = images[index]
+      })
+    }
+  }, [currentIndex, isOpen, images])
+
   if (!isOpen) return null
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -95,20 +114,18 @@ const ImageModal = ({
         {/* Main Image */}
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.3 }}
-          className="relative max-w-[90vw] max-h-[80vh] w-full h-full flex items-center justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          className="relative w-full h-full flex items-center justify-center p-8"
           onClick={(e) => e.stopPropagation()}
         >
-          <Image
+          <img
             src={images[currentIndex]}
             alt={`${categoryName} - Image ${currentIndex + 1}`}
-            fill
-            sizes="90vw"
-            className="object-contain"
-            priority
+            className="max-w-[90vw] max-h-[80vh] object-contain"
+            style={{ maxWidth: '90vw', maxHeight: '80vh' }}
           />
         </motion.div>
 
@@ -128,12 +145,10 @@ const ImageModal = ({
                     : 'border-transparent hover:border-gray-400'
                 }`}
               >
-                <Image
+                <img
                   src={image}
                   alt={`Thumbnail ${index + 1}`}
-                  fill
-                  sizes="64px"
-                  className="object-cover"
+                  className="w-full h-full object-cover"
                 />
               </button>
             ))}
@@ -184,23 +199,24 @@ export const CollectionGallery = ({ category }: CollectionGalleryProps) => {
         </p>
       </div>
 
+
+
       {/* Gallery Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {category.images.map((image, index) => (
-          <motion.div
+          <div
             key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="group relative aspect-square bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+            className="group relative aspect-square bg-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
             onClick={() => openModal(index)}
           >
             <Image
               src={image}
               alt={`${category.name} - Piece ${index + 1}`}
               fill
-              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
               className="object-cover group-hover:scale-105 transition-transform duration-300"
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              priority={index < 8}
+              quality={75}
             />
             
             {/* Hover Overlay */}
@@ -214,7 +230,7 @@ export const CollectionGallery = ({ category }: CollectionGalleryProps) => {
             <div className="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
               {index + 1}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 

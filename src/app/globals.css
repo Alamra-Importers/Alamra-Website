@@ -53,4 +53,24 @@
   .text-gradient {
     @apply bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent;
   }
+  
+  .header-spacing {
+    padding-top: 4rem; /* 64px - matches fixed header height */
+  }
+  
+  .header-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4rem; /* 64px */
+    z-index: 50;
+    transform: translateZ(0); /* Force hardware acceleration */
+    backface-visibility: hidden; /* Prevent flickering */
+    contain: layout style paint; /* Optimize rendering */
+  }
+  
+  .header-fixed * {
+    box-sizing: border-box; /* Ensure consistent sizing */
+  }
 }
