@@ -10,7 +10,10 @@
     "type-check": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:email": "node test-email.js",
+    "test:integration": "jest integration.test.ts",
+    "test:all": "npm test && npm run test:email"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
