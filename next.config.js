@@ -7,6 +7,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: true,
+  output: 'export',
+  trailingSlash: true,
   
   // Environment variables
   env: {
@@ -14,10 +16,9 @@ const nextConfig = {
     GMAIL_APP_PASSWORD: process.env.GMAIL_APP_PASSWORD,
   },
   
-  // Image optimization
+  // Image optimization - disabled for static export
   images: {
-    domains: ['localhost'],
-    formats: ['image/webp', 'image/avif'],
+    unoptimized: true,
   },
 }
 
