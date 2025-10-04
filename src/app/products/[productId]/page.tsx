@@ -57,6 +57,12 @@ interface Props {
   }
 }
 
+export async function generateStaticParams() {
+  return products.map((product) => ({
+    productId: product.id,
+  }))
+}
+
 export function generateMetadata({ params }: Props) {
   const product = products.find(p => p.id === params.productId)
   
