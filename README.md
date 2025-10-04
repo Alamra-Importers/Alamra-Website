@@ -125,20 +125,6 @@ The website is fully responsive with breakpoints:
 - **Tablet**: 768px - 1024px  
 - **Desktop**: > 1024px
 
-## 🚀 Deployment
-
-### Vercel (Recommended)
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy automatically
-
-### Other Platforms
-The app can be deployed to any platform supporting Next.js:
-- Netlify
-- Railway
-- DigitalOcean App Platform
-
 ## 📄 License
 
 This project is private and proprietary to Alamra Embroidery.
