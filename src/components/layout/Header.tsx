@@ -13,6 +13,7 @@ export function Header() {
   const matches = useMatches()
   const currentRoute = matches[matches.length - 1]
 
+  //@ts-ignore
   const headerText = currentRoute?.staticData?.headerText ?? 'light'
 
   const isDarkText = headerText === 'dark'
