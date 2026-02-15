@@ -1,0 +1,55 @@
+---
+title: Alamra Importers — Security & DDoS Protection Layers
+---
+graph LR
+    ATTACKER([fa:fa-skull Malicious Traffic])
+    USER([fa:fa-user Legitimate User])
+
+    subgraph LAYER1 ["Layer 1 — Cloudflare Edge Protection"]
+        direction TB
+        WAF[fa:fa-shield-alt Web Application Firewall<br/>Managed Rulesets]
+        DDOS_CF[fa:fa-ban DDoS Mitigation<br/>Rate Limiting + Challenge Pages]
+        BOT[fa:fa-robot Bot Management<br/>JS Challenge / Turnstile]
+    end
+
+    subgraph LAYER2 ["Layer 2 — AWS Shield + CloudFront"]
+        direction TB
+        SHIELD[fa:fa-shield-alt AWS Shield Standard<br/>Network-Layer DDoS Protection]
+        OAC[Origin Access Control<br/>S3 Only Accessible via CloudFront]
+        GEO[CloudFront Geo-Restriction<br/>Optional Region Blocking]
+    end
+
+    subgraph LAYER3 ["Layer 3 — Application Security"]
+        direction TB
+        CORS[CORS Policy<br/>Origin Allow-List]
+        SECRET[API Secret Validation<br/>X-Alamra-Secret Header]
+        SANITIZE[Input Sanitization<br/>sanitize-html Library]
+        HTTPS[TLS/HTTPS Everywhere<br/>Enforced by Cloudflare]
+    end
+
+    subgraph PROTECTED ["Protected Resources"]
+        direction TB
+        SITE[fa:fa-globe Static Website<br/>Cloudflare Pages]
+        API[fa:fa-cog Email API<br/>Cloudflare Worker]
+        IMAGES[fa:fa-image Product Images<br/>S3 via CloudFront]
+    end
+
+    ATTACKER -->|Blocked| LAYER1
+    USER -->|HTTPS| LAYER1
+    LAYER1 -->|Clean Traffic| LAYER2
+    LAYER2 -->|Verified Requests| LAYER3
+    LAYER3 --> PROTECTED
+
+    classDef threat fill:#fecaca,stroke:#dc2626,stroke-width:2px,color:#7f1d1d
+    classDef user fill:#f0fdf4,stroke:#16a34a,stroke-width:2px,color:#14532d
+    classDef l1 fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#78350f
+    classDef l2 fill:#fce7f3,stroke:#be185d,stroke-width:2px,color:#831843
+    classDef l3 fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
+    classDef safe fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
+
+    class ATTACKER threat
+    class USER user
+    class WAF,DDOS_CF,BOT l1
+    class SHIELD,OAC,GEO l2
+    class CORS,SECRET,SANITIZE,HTTPS l3
+    class SITE,API,IMAGES safe

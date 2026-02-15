@@ -1,0 +1,44 @@
+---
+title: Alamra Importers — Request Flow
+---
+sequenceDiagram
+    autonumber
+    participant U as Client Browser
+    participant DNS as Cloudflare DNS
+    participant CP as Cloudflare Pages
+    participant CW as Cloudflare Worker
+    participant CFr as AWS CloudFront
+    participant S3 as AWS S3
+
+    rect rgb(254, 243, 199)
+        Note over U,CP: Initial Page Load
+        U ->>+ DNS : GET alamraimporters.com
+        DNS ->>+ CP : Route to Cloudflare Pages
+        CP -->>- DNS : HTML + JS + CSS bundle
+        DNS -->>- U : Serve static site
+    end
+
+    rect rgb(252, 231, 243)
+        Note over U,S3: Product Image Loading
+        U ->>+ CFr : GET d194zinrjsggt.cloudfront.net/*.webp
+        alt Cache HIT — Edge Node
+            CFr -->> U : Return cached image
+        else Cache MISS
+            CFr ->>+ S3 : Fetch original from S3
+            S3 -->>- CFr : Return image object
+            CFr -->>- U : Serve image + set cache headers
+        end
+    end
+
+    rect rgb(219, 234, 254)
+        Note over U,CW: Contact Form Submission
+        U ->>+ CW : POST /api/send-email
+        Note right of U : Headers: X-Alamra-Secret
+        CW ->> CW : Validate CORS origin + secret
+        alt Valid Request
+            CW ->> CW : Forward to Resend API
+            CW -->> U : 200 OK — success: true
+        else Invalid Request
+            CW -->>- U : 403 Forbidden
+        end
+    end

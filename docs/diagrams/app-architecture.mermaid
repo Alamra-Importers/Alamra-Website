@@ -1,0 +1,86 @@
+---
+title: Alamra Importers — Application Architecture
+---
+graph TB
+    subgraph ENTRY ["Entry Point"]
+        HTML[index.html]
+        MAIN[main.tsx — React Root]
+    end
+
+    subgraph ROUTER ["TanStack Router — File-Based Routing"]
+        ROOT[__root.tsx — Layout Shell]
+        HOME["/ — Home Page"]
+        ABOUT["/about — About Page"]
+        PRODUCTS["/products — Product Catalog"]
+        DETAIL["/products/:id — Product Detail"]
+    end
+
+    subgraph LAYOUT ["Layout Components"]
+        HEADER[Header.tsx — Sticky Nav]
+        FOOTER[Footer.tsx — Site Footer]
+        DRAWER[MobileDrawer.tsx — Mobile Nav]
+    end
+
+    subgraph SECTIONS ["Section Components"]
+        HERO[hero.tsx — Hero Banner]
+        FEATURED[featured-work.tsx — Featured Products]
+        GRID[products-grid.tsx — Filterable Grid]
+        PRODUCT_VIEW[product-detail.tsx — Gallery + Info]
+        CONTACT[contact-section.tsx — Contact Form]
+        SLIDESHOW[Slideshow.tsx — Image Carousel]
+    end
+
+    subgraph DATA ["Data Layer"]
+        PRODUCTS_DATA[products.ts — 27 Products / 5 Categories]
+        TYPES[Product.ts — TypeScript Interface]
+    end
+
+    subgraph DESIGN ["Design System"]
+        TW[Tailwind CSS — Utility Classes]
+        MT[Material Tailwind — UI Components]
+        FM[Framer Motion — Animations]
+        GLOBALS[globals.css — Custom Components]
+    end
+
+    HTML --> MAIN
+    MAIN --> ROOT
+
+    ROOT --> HEADER
+    ROOT --> FOOTER
+    HEADER --> DRAWER
+    ROOT --> HOME
+    ROOT --> ABOUT
+    ROOT --> PRODUCTS
+    ROOT --> DETAIL
+
+    HOME --> HERO
+    HOME --> FEATURED
+    PRODUCTS --> GRID
+    DETAIL --> PRODUCT_VIEW
+    PRODUCT_VIEW --> SLIDESHOW
+    ROOT --> CONTACT
+
+    GRID --> PRODUCTS_DATA
+    PRODUCT_VIEW --> PRODUCTS_DATA
+    FEATURED --> PRODUCTS_DATA
+    PRODUCTS_DATA --> TYPES
+
+    HERO --> FM
+    FEATURED --> FM
+    HEADER --> MT
+    GRID --> TW
+    CONTACT --> GLOBALS
+
+    classDef entry fill:#f8fafc,stroke:#334155,stroke-width:2px,color:#0f172a
+    classDef router fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#78350f
+    classDef layout fill:#e0e7ff,stroke:#4f46e5,stroke-width:2px,color:#312e81
+    classDef section fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
+    classDef data fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
+    classDef design fill:#fce7f3,stroke:#be185d,stroke-width:2px,color:#831843
+
+    class HTML,MAIN entry
+    class ROOT,HOME,ABOUT,PRODUCTS,DETAIL router
+    class HEADER,FOOTER,DRAWER layout
+    class HERO,FEATURED,GRID,PRODUCT_VIEW,CONTACT,SLIDESHOW section
+    class PRODUCTS_DATA,TYPES data
+    class TW,MT,FM,GLOBALS design

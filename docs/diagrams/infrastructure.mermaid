@@ -1,0 +1,73 @@
+---
+title: Alamra Importers — Architecture Overview
+---
+
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#f5f2ee',
+    'primaryTextColor': '#545454',
+    'primaryBorderColor': '#545454',
+    'lineColor': '#1b2c63',
+    'secondaryColor': '#eeeeee',
+    'tertiaryColor': '#f5f2ee',
+    'background': '#f5f2ee',
+    'mainBkg': '#f5f2ee',
+    'secondBkg': '#f5f2ee',
+    'tertiaryBkg': '#eeeeee',
+    'textColor': '#545454',
+    'border1': '#545454',
+    'border2': '#1b2c63',
+    'fontFamily': 'Poppins, sans-serif',
+    'fontSize': '14px'
+  }
+}}%%
+
+graph TB
+    classDef wide width:240px,height:60px;
+    
+    %% CLIENT LAYER
+    Client([fa:fa-user Client Browser]):::wide
+    
+    %% CLOUDFLARE EDGE LAYER
+    subgraph EDGE ["🌐 Cloudflare Edge & CDN"]
+        direction LR
+        CF_DNS[fa:fa-globe Cloudflare DNS<br/>alamraimporters.com]:::wide
+        CF_PAGES[fa:fa-cloud Cloudflare Pages<br/>Static Site Hosting]:::wide
+        CF_WORKER[fa:fa-cog Cloudflare Worker<br/>Email API Endpoint]:::wide
+    end
+    
+    %% PARALLEL SERVICES LAYER
+    subgraph AWS_IMG ["☁️ AWS Image Delivery"]
+        direction TB
+        AWS_CF[fa:fa-bolt AWS CloudFront<br/>Image CDN]:::wide
+        S3[fa:fa-database AWS S3 Bucket<br/>Product Images WebP]:::wide
+    end
+    
+    subgraph EMAIL ["📧 Email Delivery Pipeline"]
+        direction LR
+        GMAIL[fa:fa-inbox Gmail<br/>alamraimporters@gmail.com]:::wide
+        RESEND[fa:fa-envelope Resend API<br/>Transactional Email]:::wide
+    end
+    
+    %% FLOWS - Clear and direct
+    Client -->|HTTPS Request| CF_DNS
+    CF_DNS --> CF_PAGES
+    CF_DNS -->|POST /api/send-email| CF_WORKER
+    
+    Client -->|Image Requests| AWS_CF
+    AWS_CF -->|Origin Fetch| S3
+    
+    CF_WORKER -->|Send Email| RESEND
+    RESEND -->|Deliver| GMAIL
+    
+    %% STYLES WITH CORRECTED BRAND COLORS
+    classDef client fill:#f5f2ee,stroke:#1b2c63,stroke-width:3px,color:#212121,font-weight:bold
+    classDef edge fill:#f5f2ee,stroke:#545454,stroke-width:2px,color:#545454
+    classDef aws fill:#eeeeee,stroke:#545454,stroke-width:2px,color:#212121
+    classDef email fill:#eeeeee,stroke:#545454,stroke-width:2px,color:#212121
+    
+    class Client client
+    class CF_DNS,CF_PAGES,CF_WORKER edge
+    class AWS_CF,S3 aws
+    class RESEND,GMAIL email

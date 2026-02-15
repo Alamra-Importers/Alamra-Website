@@ -1,0 +1,51 @@
+---
+title: Alamra Importers — Deployment Pipeline
+---
+graph LR
+    subgraph DEV ["Development"]
+        LOCAL[fa:fa-laptop Local Dev Server<br/>vite dev — port 5173]
+        CODE[fa:fa-code Write Code<br/>TypeScript + React + Tailwind]
+    end
+
+    subgraph VCS ["Version Control"]
+        BRANCH[fa:fa-code-branch Feature Branch]
+        PR[fa:fa-code-merge Pull Request + Review]
+        MAIN_BR[fa:fa-check main Branch]
+    end
+
+    subgraph CI ["Build Step"]
+        VITE_B[fa:fa-hammer Vite Build<br/>TypeScript Compile<br/>Tailwind Purge<br/>Bundle + Tree-shake]
+        DIST[fa:fa-folder dist/<br/>Optimized Static Assets]
+    end
+
+    subgraph DEPLOY ["Cloudflare Deploy"]
+        CF_DEPLOY[fa:fa-cloud Cloudflare Pages<br/>Auto-Deploy on Push]
+        WORKER_DEPLOY[fa:fa-cog wrangler deploy<br/>Worker + Assets]
+    end
+
+    subgraph LIVE ["Production"]
+        SITE_LIVE[fa:fa-globe alamraimporters.com]
+    end
+
+    CODE --> LOCAL
+    LOCAL --> BRANCH
+    BRANCH --> PR
+    PR --> MAIN_BR
+    MAIN_BR --> VITE_B
+    VITE_B --> DIST
+    DIST --> CF_DEPLOY
+    MAIN_BR --> WORKER_DEPLOY
+    CF_DEPLOY --> SITE_LIVE
+    WORKER_DEPLOY --> SITE_LIVE
+
+    classDef dev fill:#f8fafc,stroke:#334155,stroke-width:2px,color:#0f172a
+    classDef vcs fill:#e0e7ff,stroke:#4f46e5,stroke-width:2px,color:#312e81
+    classDef ci fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#78350f
+    classDef deploy fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
+    classDef live fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
+
+    class LOCAL,CODE dev
+    class BRANCH,PR,MAIN_BR vcs
+    class VITE_B,DIST ci
+    class CF_DEPLOY,WORKER_DEPLOY deploy
+    class SITE_LIVE live
