@@ -32,7 +32,7 @@ export const Footer = () => {
           >
             <a href="/" className="flex items-center space-x-3 mb-6">
               <img
-                src="/alamra.png"
+                src="/alamra.webp"
                 alt="Alamra"
                 width={40}
                 height={40}
