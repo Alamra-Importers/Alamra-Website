@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon } from '@heroicons/react/24/outline'
 import { Link } from '@tanstack/react-router'
 import { useMatches, useLocation } from '@tanstack/react-router'
+import { MobileDrawer } from './MobileDrawer'
 
 export function Header() {
 
@@ -88,48 +88,22 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-gray-700 hover:text-primary-500"
+              className={`md:hidden p-2 ${isDarkText || isScrolled ? "text-gray-900" : "text-white"} hover:text-primary-500`}
               style={{ transition: 'color 0.2s ease' }}
             >
-              {isMobileMenuOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
+              <Bars3Icon className="h-6 w-6" />
             </button>
           </nav>
-
-          {/* Mobile Menu */}
-          <AnimatePresence>
-            {isMobileMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="md:hidden bg-white border-t border-gray-200"
-              >
-                <div className="py-4 space-y-4">
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block text-gray-700 hover:text-primary-500 font-medium"
-                      style={{ transition: 'color 0.2s ease' }}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                  <Link
-                    to="/#contact"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg font-medium inline-block"
-                    style={{ transition: 'background-color 0.2s ease' }}
-                  >
-                    Get Quote
-                  </Link>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </div>
+
+      {/* Mobile Drawer */}
+      <MobileDrawer
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        navItems={navItems}
+        contactLink={location_with_path_name}
+      />
     </header>
   )
 }
