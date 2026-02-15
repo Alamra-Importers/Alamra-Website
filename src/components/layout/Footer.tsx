@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { Mail, MapPin } from 'lucide-react'
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -32,8 +32,8 @@ export const Footer = () => {
           >
             <a href="/" className="flex items-center space-x-3 mb-6">
               <img
-                src="/alamra.png"
-                alt="Alamra"
+                src="/logo-white.webp"
+                alt="Alamra White Logo"
                 width={40}
                 height={40}
                 className="w-10 h-10"

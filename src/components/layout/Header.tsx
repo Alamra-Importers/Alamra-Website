@@ -13,6 +13,7 @@ export function Header() {
   const matches = useMatches()
   const currentRoute = matches[matches.length - 1]
 
+  //@ts-ignore
   const headerText = currentRoute?.staticData?.headerText ?? 'light'
 
   const isDarkText = headerText === 'dark'
@@ -56,7 +57,7 @@ export function Header() {
             {/* Logo */}
             <Link to="/" className="flex items-center flex-shrink-0">
               <img
-                src={isScrolled ? "/logo-black.png" : "/logo-gold.png"}
+                src={isScrolled ? "/logo-black.webp" : "/logo-gold-512.webp"}
                 alt="Alamra"
                 width={48}
                 height={48}

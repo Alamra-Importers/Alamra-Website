@@ -35,7 +35,7 @@ export function MobileDrawer({ isOpen, onClose, navItems, contactLink }: MobileD
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-gray-200">
                 <img
-                  src="/logo-black.png"
+                  src="/logo-black.webp"
                   alt="Alamra"
                   width={40}
                   height={40}
