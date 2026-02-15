@@ -57,7 +57,7 @@ export function Header() {
             {/* Logo */}
             <Link to="/" className="flex items-center flex-shrink-0">
               <img
-                src={isScrolled ? "/logo-black.webp" : "/logo-gold.webp"}
+                src={isScrolled ? "/logo-black.webp" : "/logo-gold-512.webp"}
                 alt="Alamra"
                 width={48}
                 height={48}

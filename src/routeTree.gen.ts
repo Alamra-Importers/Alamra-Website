@@ -39,7 +39,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/products/$productId': typeof ProductsProductIdRoute
-  '/products': typeof ProductsIndexRoute
+  '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -56,7 +56,7 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/products/$productId' | '/products'
+  fullPaths: '/' | '/about' | '/products/$productId' | '/products/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/about' | '/products/$productId' | '/products'
   id: '__root__' | '/' | '/about' | '/products/$productId' | '/products/'
@@ -88,7 +88,7 @@ declare module '@tanstack/react-router' {
     '/products/': {
       id: '/products/'
       path: '/products'
-      fullPath: '/products'
+      fullPath: '/products/'
       preLoaderRoute: typeof ProductsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
