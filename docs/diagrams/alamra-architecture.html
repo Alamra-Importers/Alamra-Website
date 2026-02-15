@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alamra Importers — Architecture Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ee;
+    --navy: #1b2c63;
+    --text: #545454;
+    --text-dark: #212121;
+    --card-bg: #ffffff;
+    --card-border: #d4d0cc;
+    --accent-edge: #1b2c63;
+    --accent-aws: #e8a83e;
+    --accent-email: #3a8f71;
+    --line: #1b2c63;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Poppins', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+    margin-bottom: 48px;
+    text-align: center;
+  }
+
+  .diagram {
+    position: relative;
+    width: 960px;
+    height: 750px;
+  }
+
+  /* ── NODES ── */
+  .node {
+    position: absolute;
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-align: center;
+    width: 210px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 2;
+  }
+
+  .node:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+
+  .node .icon { font-size: 20px; margin-bottom: 4px; }
+  .node .label { font-weight: 600; font-size: 13px; color: var(--text-dark); line-height: 1.3; }
+  .node .sublabel { font-size: 11px; color: var(--text); margin-top: 2px; line-height: 1.3; }
+
+  .node.client {
+    border-color: var(--navy);
+    border-width: 3px;
+    background: var(--bg);
+  }
+
+  /* ── GROUP BOXES ── */
+  .group {
+    position: absolute;
+    border: 2px solid var(--card-border);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.3);
+    z-index: 0;
+  }
+
+  .group .group-title {
+    position: absolute;
+    top: -13px;
+    left: 20px;
+    background: var(--bg);
+    padding: 2px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .group.edge { border-color: var(--accent-edge); }
+  .group.edge .group-title { color: var(--accent-edge); }
+  .group.aws { border-color: var(--accent-aws); }
+  .group.aws .group-title { color: var(--accent-aws); }
+  .group.email { border-color: var(--accent-email); }
+  .group.email .group-title { color: var(--accent-email); }
+
+  /* ── SVG LINES ── */
+  svg.lines {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  svg.lines path {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1.8;
+  }
+
+  svg.lines .arrow {
+    fill: var(--line);
+    stroke: none;
+  }
+
+  /* ── EDGE LABELS ── */
+  .edge-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--navy);
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 3;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ════════════════════════════════════════
+     LAYOUT
+     ════════════════════════════════════════ */
+
+  /* Row 0: Client — centered */
+  #client { top: 0px; left: 375px; }
+
+  /* Row 1: Cloudflare Edge group */
+  #edge-group { top: 110px; left: 120px; width: 720px; height: 250px; }
+  #cf-dns     { top: 145px; left: 375px; }
+  #cf-pages   { top: 270px; left: 155px; }
+  #cf-worker  { top: 270px; left: 590px; }
+
+  /* Row 2 left: AWS group */
+  #aws-group { top: 440px; left: 80px; width: 280px; height: 260px; }
+  #aws-cf    { top: 475px; left: 115px; }
+  #s3        { top: 605px; left: 115px; }
+
+  /* Row 2 right: Email group — HORIZONTAL */
+  #email-group { top: 440px; left: 440px; width: 490px; height: 140px; }
+  #resend      { top: 472px; left: 470px; }
+  #gmail       { top: 472px; left: 700px; }
+</style>
+</head>
+<body>
+
+<h1>Alamra Importers — Architecture Overview</h1>
+
+<div class="diagram" id="diagram">
+
+  <!-- GROUP BOXES -->
+  <div class="group edge" id="edge-group">
+    <span class="group-title">🌐 Cloudflare Edge & CDN</span>
+  </div>
+  <div class="group aws" id="aws-group">
+    <span class="group-title">☁️ AWS Image Delivery</span>
+  </div>
+  <div class="group email" id="email-group">
+    <span class="group-title">📧 Email Delivery Pipeline</span>
+  </div>
+
+  <!-- NODES -->
+  <div class="node client" id="client">
+    <div class="icon">👤</div>
+    <div class="label">Client Browser</div>
+  </div>
+
+  <div class="node" id="cf-dns">
+    <div class="icon">🌐</div>
+    <div class="label">Cloudflare DNS</div>
+    <div class="sublabel">alamraimporters.com</div>
+  </div>
+
+  <div class="node" id="cf-pages">
+    <div class="icon">☁️</div>
+    <div class="label">Cloudflare Pages</div>
+    <div class="sublabel">Static Site Hosting</div>
+  </div>
+
+  <div class="node" id="cf-worker">
+    <div class="icon">⚙️</div>
+    <div class="label">Cloudflare Worker</div>
+    <div class="sublabel">Email API Endpoint</div>
+  </div>
+
+  <div class="node" id="aws-cf">
+    <div class="icon">⚡</div>
+    <div class="label">AWS CloudFront</div>
+    <div class="sublabel">Image CDN</div>
+  </div>
+
+  <div class="node" id="s3">
+    <div class="icon">🗄️</div>
+    <div class="label">AWS S3 Bucket</div>
+    <div class="sublabel">Product Images WebP</div>
+  </div>
+
+  <div class="node" id="resend">
+    <div class="icon">✉️</div>
+    <div class="label">Resend API</div>
+    <div class="sublabel">Transactional Email</div>
+  </div>
+
+  <div class="node" id="gmail">
+    <div class="icon">📬</div>
+    <div class="label">Gmail</div>
+    <div class="sublabel">alamraimporters@gmail.com</div>
+  </div>
+
+  <!-- SVG CONNECTORS -->
+  <svg class="lines" id="svg-lines"></svg>
+</div>
+
+<script>
+const svg = document.getElementById('svg-lines');
+const diagram = document.getElementById('diagram');
+
+function r(id) {
+  const el = document.getElementById(id);
+  const dr = diagram.getBoundingClientRect();
+  const er = el.getBoundingClientRect();
+  return {
+    cx: er.left - dr.left + er.width / 2,
+    cy: er.top - dr.top + er.height / 2,
+    t: er.top - dr.top,
+    b: er.top - dr.top + er.height,
+    l: er.left - dr.left,
+    r: er.left - dr.left + er.width,
+  };
+}
+
+function path(d) {
+  const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  p.setAttribute('d', d);
+  svg.appendChild(p);
+}
+
+function arrow(x, y, dir) {
+  const a = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+  const s = 6;
+  const pts = {
+    down:  `${x},${y} ${x-s},${y-s*1.6} ${x+s},${y-s*1.6}`,
+    right: `${x},${y} ${x-s*1.6},${y-s} ${x-s*1.6},${y+s}`,
+  };
+  a.setAttribute('points', pts[dir]);
+  a.setAttribute('class', 'arrow');
+  svg.appendChild(a);
+}
+
+function label(text, x, y, offsetX, offsetY) {
+  const lbl = document.createElement('div');
+  lbl.className = 'edge-label';
+  lbl.textContent = text;
+  lbl.style.left = (x + (offsetX || 0)) + 'px';
+  lbl.style.top = (y + (offsetY || 0)) + 'px';
+  diagram.appendChild(lbl);
+}
+
+function draw() {
+  svg.innerHTML = '';
+  document.querySelectorAll('.edge-label').forEach(e => e.remove());
+
+  const client  = r('client');
+  const dns     = r('cf-dns');
+  const pages   = r('cf-pages');
+  const worker  = r('cf-worker');
+  const awscf   = r('aws-cf');
+  const s3      = r('s3');
+  const resend  = r('resend');
+  const gmail   = r('gmail');
+
+  // 1. Client → CF DNS (straight down, center aligned)
+  path(`M${client.cx},${client.b} L${dns.cx},${dns.t}`);
+  arrow(dns.cx, dns.t, 'down');
+  label('HTTPS Request', (client.cx + dns.cx) / 2, (client.b + dns.t) / 2);
+
+  // 2. CF DNS → CF Pages (curve down-left)
+  const m2y = (dns.b + pages.t) / 2;
+  path(`M${dns.cx},${dns.b} C${dns.cx},${m2y} ${pages.cx},${m2y} ${pages.cx},${pages.t}`);
+  arrow(pages.cx, pages.t, 'down');
+
+  // 3. CF DNS → CF Worker (curve down-right)
+  const m3y = (dns.b + worker.t) / 2;
+  path(`M${dns.cx},${dns.b} C${dns.cx},${m3y} ${worker.cx},${m3y} ${worker.cx},${worker.t}`);
+  arrow(worker.cx, worker.t, 'down');
+  label('POST /api/send-email', (dns.cx + worker.cx) / 2 + 20, m3y);
+
+  // 4. Client → AWS CloudFront (curve from client left side down to awscf)
+  const c4x = client.l;
+  const c4y = client.cy;
+  const m4 = (c4y + awscf.t) / 2 + 50;
+  path(`M${c4x},${c4y} C${c4x - 60},${m4} ${awscf.cx},${m4 - 60} ${awscf.cx},${awscf.t}`);
+  arrow(awscf.cx, awscf.t, 'down');
+  label('Image Requests', awscf.cx - 80, (c4y + awscf.t) / 2 + 20);
+
+  // 5. AWS CloudFront → S3 (straight down)
+  path(`M${awscf.cx},${awscf.b} L${s3.cx},${s3.t}`);
+  arrow(s3.cx, s3.t, 'down');
+  label('Origin Fetch', awscf.cx + 125, (awscf.b + s3.t) / 2);
+
+  // 6. CF Worker → Resend (curve down from worker to resend top)
+  const m6y = (worker.b + resend.t) / 2;
+  path(`M${worker.cx},${worker.b} C${worker.cx},${m6y} ${resend.cx},${m6y} ${resend.cx},${resend.t}`);
+  arrow(resend.cx, resend.t, 'down');
+  label('Send Email', (worker.cx + resend.cx) / 2, m6y);
+
+  // 7. Resend → Gmail (horizontal right)
+  path(`M${resend.r},${resend.cy} L${gmail.l},${gmail.cy}`);
+  arrow(gmail.l, gmail.cy, 'right');
+  label('Deliver', (resend.r + gmail.l) / 2, resend.cy - 18);
+}
+
+draw();
+window.addEventListener('resize', draw);
+</script>
+
+</body>
+</html>
